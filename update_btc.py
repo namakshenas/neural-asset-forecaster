@@ -47,12 +47,13 @@ xychart-beta
   y-axis "Price (USD)"
   line "Actual" [{", ".join([str(v) if v else "" for v in actual])}]
   line "TSMixer" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["TSMixer"]])}]
-  line "NBEATS" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["NBEATS"]])}]
-  line "NHITS" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["NHITS"]])}]
-  line "MLP" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["MLP"]])}]
-  line "PatchTST" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["PatchTST"]])}]
-  line "TiDE" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["TiDE"]])}]
 ```"""
+
+#   line "NBEATS" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["NBEATS"]])}]
+#   line "NHITS" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["NHITS"]])}]
+#   line "MLP" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["MLP"]])}]
+#   line "PatchTST" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["PatchTST"]])}]
+#   line "TiDE" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["TiDE"]])}]
 
 # Update README
 with open("README.md", "r") as f:
