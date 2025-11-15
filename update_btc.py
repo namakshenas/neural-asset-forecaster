@@ -38,16 +38,32 @@ Y_hat_df = nf.predict()
 # Generate Mermaid chart
 recent_data = btc_df.tail(30)
 dates = [d.strftime("%m/%d") for d in recent_data["ds"]] + [d.strftime("%m/%d") for d in Y_hat_df["ds"]]
-actual = [int(v) for v in recent_data["y"]] + [None] * len(Y_hat_df)
+actual = [str(int(v)) for v in recent_data["y"]]
+last_price = int(recent_data["y"].iloc[-1])
+
+forecast = [str(last_price)] + [str(int(v)) for v in Y_hat_df["TSMixer"][1:]]
 
 mermaid = f"""```mermaid
 xychart-beta
   title "Bitcoin Price - 30 Day Forecast"
   x-axis [{", ".join([f'"{d}"' for d in dates])}]
   y-axis "Price (USD)"
-  line "Actual" [{", ".join([str(v) if v else "" for v in actual])}]
-  line "TSMixer" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["TSMixer"]])}]
+  line "Actual" [{", ".join(actual + ["0"] * len(Y_hat_df))}]
+  line "Forecast" [{", ".join(["0"] * len(recent_data) + forecast)}]
 ```"""
+
+# Update README
+with open("README.md", "r") as f:
+    readme = f.read()
+
+readme = re.sub(r"<!-- BTC-START -->.*?<!-- BTC-END -->", 
+                f"<!-- BTC-START -->\n\n{mermaid}\n\n<!-- BTC-END -->", 
+                readme, flags=re.DOTALL)
+
+with open("README.md", "w") as f:
+    f.write(readme)
+
+print("README updated!")
 
 #   line "NBEATS" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["NBEATS"]])}]
 #   line "NHITS" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["NHITS"]])}]
@@ -55,15 +71,3 @@ xychart-beta
 #   line "PatchTST" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["PatchTST"]])}]
 #   line "TiDE" [{", ".join([""] * len(recent_data) + [str(int(v)) for v in Y_hat_df["TiDE"]])}]
 
-# Update README
-with open("README.md", "r") as f:
-    readme = f.read()
-
-pattern = r"<!-- BTC-START -->.*?<!-- BTC-END -->"
-replacement = f"<!-- BTC-START -->\n\n{mermaid}\n\n<!-- BTC-END -->"
-readme = re.sub(pattern, replacement, readme, flags=re.DOTALL)
-
-with open("README.md", "w") as f:
-    f.write(readme)
-
-print("README updated!")
