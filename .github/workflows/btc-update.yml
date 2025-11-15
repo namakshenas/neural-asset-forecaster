@@ -23,6 +23,8 @@ jobs:
       - run: uv pip install --system neuralforecast yfinance scipy pydantic plotly
       
       - run: python update_btc.py
+
+      - run: python update_eth.py
       
       - run: |
           git config user.name "github-actions[bot]"
