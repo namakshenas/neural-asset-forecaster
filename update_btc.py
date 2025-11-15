@@ -16,16 +16,16 @@ horizon = 30
 models = [
     TSMixer(h=horizon, n_series=1, input_size=336, n_block=4, ff_dim=128, dropout=0.3, 
             revin=True, max_steps=400, learning_rate=1e-3, scaler_type="robust", batch_size=32),
-    NBEATS(h=horizon, input_size=168, max_steps=500, learning_rate=1e-3, scaler_type="robust",
-           n_blocks=[3, 3], mlp_units=[[256, 256], [256, 256]], stack_types=["trend", "seasonality"], batch_size=32),
-    NHITS(h=horizon, input_size=336, max_steps=500, learning_rate=1e-3, scaler_type="robust",
-          n_freq_downsample=[8, 4, 1], interpolation_mode="linear", pooling_mode="MaxPool1d", activation="ReLU", batch_size=32),
-    MLP(h=horizon, input_size=168, max_steps=400, learning_rate=1e-3, scaler_type="robust",
-        num_layers=3, hidden_size=256, batch_size=32),
-    PatchTST(h=horizon, input_size=336, max_steps=500, learning_rate=2e-4, scaler_type="robust",
-             patch_len=16, stride=8, encoder_layers=3, n_heads=16, revin=True, batch_size=32),
-    TiDE(h=horizon, input_size=720, max_steps=500, learning_rate=1e-3, scaler_type="robust",
-         hidden_size=256, batch_size=32),
+    # NBEATS(h=horizon, input_size=168, max_steps=500, learning_rate=1e-3, scaler_type="robust",
+    #        n_blocks=[3, 3], mlp_units=[[256, 256], [256, 256]], stack_types=["trend", "seasonality"], batch_size=32),
+    # NHITS(h=horizon, input_size=336, max_steps=500, learning_rate=1e-3, scaler_type="robust",
+    #       n_freq_downsample=[8, 4, 1], interpolation_mode="linear", pooling_mode="MaxPool1d", activation="ReLU", batch_size=32),
+    # MLP(h=horizon, input_size=168, max_steps=400, learning_rate=1e-3, scaler_type="robust",
+    #     num_layers=3, hidden_size=256, batch_size=32),
+    # PatchTST(h=horizon, input_size=336, max_steps=500, learning_rate=2e-4, scaler_type="robust",
+    #          patch_len=16, stride=8, encoder_layers=3, n_heads=16, revin=True, batch_size=32),
+    # TiDE(h=horizon, input_size=720, max_steps=500, learning_rate=1e-3, scaler_type="robust",
+    #      hidden_size=256, batch_size=32),
 ]
 
 print("Training models...")
