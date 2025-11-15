@@ -14,15 +14,17 @@ btc_df.insert(0, "unique_id", "1.0")
 horizon = 30
 
 models = [
-    TSMixer(h=horizon, n_series=1, input_size=336, n_block=4, ff_dim=128, dropout=0.3, 
-            revin=True, max_steps=400, learning_rate=1e-3, scaler_type="robust", batch_size=32),
-    NBEATS(h=horizon, input_size=168, max_steps=500, learning_rate=1e-3, scaler_type="robust",
-           n_blocks=[3, 3], mlp_units=[[256, 256], [256, 256]], stack_types=["trend", "seasonality"], batch_size=32),
-    NHITS(h=horizon, input_size=336, max_steps=500, learning_rate=1e-3, scaler_type="robust",
-          n_freq_downsample=[8, 4, 1], interpolation_mode="linear", pooling_mode="MaxPool1d", activation="ReLU", batch_size=32),
-    MLP(h=horizon, input_size=168, max_steps=400, learning_rate=1e-3, scaler_type="robust",
-        num_layers=3, hidden_size=256, batch_size=32),
-    TiDE(h=horizon, input_size=720, max_steps=500, learning_rate=1e-3, scaler_type="robust",
+    TSMixer(h=horizon, n_series=1, input_size=336, n_block=4, ff_dim=512, dropout=0.2,
+            revin=True, max_steps=350, learning_rate=5e-4, scaler_type="robust", batch_size=32),
+    NBEATS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
+           n_blocks=[3, 3, 2], mlp_units=[[512, 512], [512, 512], [512, 512]], 
+           stack_types=["trend", "seasonality", "identity"], batch_size=32),
+    NHITS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
+          n_freq_downsample=[8, 4, 1], interpolation_mode="linear", 
+          pooling_mode="MaxPool1d", activation="ReLU", batch_size=32),
+    MLP(h=horizon, input_size=336, max_steps=350, learning_rate=5e-4, scaler_type="robust",
+        num_layers=3, hidden_size=512, batch_size=32),
+    TiDE(h=horizon, input_size=512, max_steps=350, learning_rate=5e-4, scaler_type="robust",
          hidden_size=256, batch_size=32),
 ]
 
