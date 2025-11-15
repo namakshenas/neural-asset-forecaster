@@ -51,6 +51,6 @@ fig.update_layout(title="Bitcoin Price Prediction - All Models",
                   xaxis_title="Date", yaxis_title="Price (USD)",
                   hovermode="x unified", template="plotly_white")
 
-fig.write_html("predictions/btc.html")
+fig.write_image("predictions/btc.png", width=1400, height=800)
 fig.show()
 

@@ -5,6 +5,7 @@ description = "Daily automated Bitcoin, ETH, GOLD, and SILVER price forecasts us
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "kaleido>=1.2.0",
     "neuralforecast>=3.1.2",
     "plotly>=6.4.0",
     "pydantic>=2.12.4",
