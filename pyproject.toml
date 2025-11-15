@@ -1,0 +1,13 @@
+[project]
+name = "neural-asset-forecaster"
+version = "0.1.0"
+description = "Daily automated Bitcoin, ETH, GOLD, and SILVER price forecasts using neural networks. Updates daily at midnight UTC automatically."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "neuralforecast>=3.1.2",
+    "plotly>=6.4.0",
+    "pydantic>=2.12.4",
+    "scipy>=1.16.3",
+    "yfinance>=0.2.66",
+]

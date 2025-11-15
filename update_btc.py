@@ -37,7 +37,7 @@ Y_hat_df = nf.predict()
 fig = go.Figure()
 
 # Add actual data
-recent_data = Y_df.tail(60)
+recent_data = btc_df.tail(60)
 fig.add_trace(go.Scatter(x=recent_data["ds"], y=recent_data["y"], 
                          name="Actual", line=dict(color="black", width=3)))
 
