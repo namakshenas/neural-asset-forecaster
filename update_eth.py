@@ -13,18 +13,22 @@ eth_df.insert(0, "unique_id", "1.0")
 horizon = 30
 
 models = [
-    TSMixer(h=horizon, n_series=1, input_size=720, n_block=8, ff_dim=256, dropout=0.2, 
-            revin=True, max_steps=1000, learning_rate=5e-4, scaler_type="robust", batch_size=64),
-    NBEATS(h=horizon, input_size=720, max_steps=1000, learning_rate=5e-4, scaler_type="robust",
-           n_blocks=[3, 3, 3], mlp_units=[[512, 512], [512, 512], [512, 512]], 
-           stack_types=["trend", "seasonality", "identity"], batch_size=64),
-    NHITS(h=horizon, input_size=1440, max_steps=1000, learning_rate=5e-4, scaler_type="robust",
-          n_freq_downsample=[16, 8, 1], interpolation_mode="linear", pooling_mode="MaxPool1d", 
-          activation="ReLU", batch_size=64),
-    MLP(h=horizon, input_size=720, max_steps=1000, learning_rate=5e-4, scaler_type="robust",
-        num_layers=4, hidden_size=512, batch_size=64),
-    TiDE(h=horizon, input_size=1440, max_steps=1000, learning_rate=5e-4, scaler_type="robust",
-         hidden_size=512, batch_size=64),
+    TSMixer(h=horizon, n_series=1, input_size=720, n_block=6, ff_dim=512, dropout=0.2, 
+            revin=True, max_steps=300, learning_rate=5e-3, scaler_type="robust", batch_size=64),
+    
+    NBEATS(h=horizon, input_size=336, max_steps=300, learning_rate=5e-3, scaler_type="robust",
+           n_blocks=[4, 4, 4], mlp_units=[[512, 512]]*3, stack_types=["trend", "seasonality", "identity"], 
+           dropout_prob_theta=0.1, batch_size=64),
+    
+    NHITS(h=horizon, input_size=720, max_steps=300, learning_rate=5e-3, scaler_type="robust",
+          n_freq_downsample=[16, 8, 2, 1], n_blocks=[1, 1, 1, 1], mlp_units=[[512, 512]]*4,
+          interpolation_mode="linear", pooling_mode="MaxPool1d", activation="ReLU", batch_size=64),
+    
+    MLP(h=horizon, input_size=336, max_steps=300, learning_rate=5e-3, scaler_type="robust",
+        num_layers=4, hidden_size=512, dropout=0.2, batch_size=64),
+    
+    TiDE(h=horizon, input_size=1440, max_steps=300, learning_rate=5e-3, scaler_type="robust",
+         hidden_size=512, num_layers=4, dropout=0.2, batch_size=64),
 ]
 
 print("Training models...")
