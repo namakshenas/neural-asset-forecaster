@@ -1,4 +1,4 @@
-name: Update BTC Predictions
+name: Update Predictions
 
 on:
   schedule:
