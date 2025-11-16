@@ -15,9 +15,9 @@ horizon = 30
 models = [
     TSMixer(h=horizon, n_series=1, input_size=720, n_block=6, ff_dim=512, dropout=0.2, 
             revin=True, max_steps=300, learning_rate=5e-3, scaler_type="robust", batch_size=64),
-    NBEATS(h=horizon, input_size=336, max_steps=300, learning_rate=5e-3, scaler_type="robust",
-           n_blocks=[4, 4, 4], mlp_units=[[512, 512]]*3, stack_types=["trend", "seasonality", "identity"], 
-         batch_size=64),
+    NBEATS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
+           n_blocks=[3, 3, 2], mlp_units=[[512, 512], [512, 512], [512, 512]], 
+           stack_types=["trend", "seasonality", "identity"], batch_size=32),
     NHITS(h=horizon, input_size=720, max_steps=300, learning_rate=5e-3, scaler_type="robust",
           n_freq_downsample=[16, 8, 2, 1], n_blocks=[1, 1, 1, 1], mlp_units=[[512, 512]]*4,
           interpolation_mode="linear", pooling_mode="MaxPool1d", activation="ReLU", batch_size=64),
