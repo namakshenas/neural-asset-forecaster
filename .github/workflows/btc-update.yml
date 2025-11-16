@@ -20,7 +20,7 @@ jobs:
       
       - run: pip install uv
       
-      - run: uv pip install --system neuralforecast yfinance scipy pydantic plotly
+      - run: uv pip install --system neuralforecast yfinance scipy pydantic plotly kaleido
       
       - run: python update_btc.py
 
