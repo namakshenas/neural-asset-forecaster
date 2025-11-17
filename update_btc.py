@@ -1,5 +1,5 @@
 from neuralforecast import NeuralForecast
-from neuralforecast.models import TSMixer, NBEATS, NHITS, MLP, TiDE
+from neuralforecast.models import TSMixer, NBEATS, NHITS, MLP, TiDE, iTransformer
 import yfinance as yf
 import logging
 import plotly.graph_objects as go
@@ -14,6 +14,8 @@ btc_df.insert(0, "unique_id", "1.0")
 horizon = 30
 
 models = [
+    iTransformer(h=horizon, input_size=336, n_series=1, hidden_size=512, n_heads=16, e_layers=6, 
+                 d_ff=1024, max_steps=350, learning_rate=5e-4, scaler_type='robust', batch_size=32),
     TSMixer(h=horizon, n_series=1, input_size=336, n_block=4, ff_dim=512, dropout=0.2,
             revin=True, max_steps=350, learning_rate=5e-4, scaler_type="robust", batch_size=32),
     NBEATS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
@@ -44,7 +46,7 @@ fig.add_trace(go.Scatter(x=recent_data["ds"], y=recent_data["y"],
                          name="Actual", line=dict(color="black", width=3)))
 
 # Add forecasts
-models_list = ["TSMixer", "NBEATS", "NHITS", "MLP", "TiDE"]
+models_list = ["iTransformer", "TSMixer", "NBEATS", "NHITS", "MLP", "TiDE"]
 for model in models_list:
     fig.add_trace(go.Scatter(x=Y_hat_df["ds"], y=Y_hat_df[model], 
                              name=model, line=dict(width=2)))
