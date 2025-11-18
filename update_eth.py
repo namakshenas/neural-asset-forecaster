@@ -23,7 +23,7 @@ models = [
           interpolation_mode="linear", pooling_mode="MaxPool1d", activation="ReLU", batch_size=64),
     MLP(h=horizon, input_size=336, max_steps=300, learning_rate=5e-3, scaler_type="robust",
         num_layers=4, hidden_size=512, batch_size=64),
-    TiDE(h=horizon, input_size=1440, max_steps=300, learning_rate=5e-3, scaler_type="robust",
+    TiDE(h=horizon, input_size=400, max_steps=300, learning_rate=5e-3, scaler_type="robust",
          hidden_size=512, batch_size=64),
 ]
 
