@@ -13,8 +13,8 @@ eth_df.insert(0, "unique_id", "1.0")
 horizon = 30
 
 models = [
-    TSMixer(h=horizon, n_series=1, input_size=720, n_block=6, ff_dim=512, dropout=0.2, 
-            revin=True, max_steps=300, learning_rate=5e-3, scaler_type="robust", batch_size=64),
+    TSMixer(h=horizon, n_series=1, input_size=int(horizon*3), n_block=2, ff_dim=64, dropout=0.4, revin=True,
+        scaler_type="identity", max_steps=400, learning_rate=1e-3, batch_size=32, early_stop_patience_steps=10),
     NBEATS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
            n_blocks=[3, 3, 2], mlp_units=[[512, 512], [512, 512], [512, 512]], 
            stack_types=["trend", "seasonality", "identity"], batch_size=32),
@@ -29,7 +29,7 @@ models = [
 
 print("Training models...")
 nf = NeuralForecast(models=models, freq="D")
-nf.fit(df=eth_df)
+nf.fit(df=eth_df, val_size=horizon)
 
 print("Generating predictions...")
 Y_hat_df = nf.predict()

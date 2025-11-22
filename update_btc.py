@@ -14,10 +14,8 @@ btc_df.insert(0, "unique_id", "1.0")
 horizon = 30
 
 models = [
-    iTransformer(h=horizon, input_size=336, n_series=1, hidden_size=512, n_heads=16, e_layers=6, 
-                 d_ff=1024, max_steps=350, learning_rate=5e-4, scaler_type='robust', batch_size=32),
-    TSMixer(h=horizon, n_series=1, input_size=336, n_block=4, ff_dim=512, dropout=0.2,
-            revin=True, max_steps=350, learning_rate=5e-4, scaler_type="robust", batch_size=32),
+    TSMixer(h=horizon, n_series=1, input_size=int(horizon*4), n_block=3, ff_dim=128, dropout=0.3, revin=True,
+        scaler_type="identity", max_steps=400, learning_rate=5e-4, batch_size=32,early_stop_patience_steps=10),
     NBEATS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
            n_blocks=[3, 3, 2], mlp_units=[[512, 512], [512, 512], [512, 512]], 
            stack_types=["trend", "seasonality", "identity"], batch_size=32),
@@ -32,7 +30,7 @@ models = [
 
 print("Training models...")
 nf = NeuralForecast(models=models, freq="D")
-nf.fit(df=btc_df)
+nf.fit(df=btc_df, val_size=horizon)
 
 print("Generating predictions...")
 Y_hat_df = nf.predict()
@@ -46,7 +44,7 @@ fig.add_trace(go.Scatter(x=recent_data["ds"], y=recent_data["y"],
                          name="Actual", line=dict(color="black", width=3)))
 
 # Add forecasts
-models_list = ["iTransformer", "TSMixer", "NBEATS", "NHITS", "MLP", "TiDE"]
+models_list = ["TSMixer", "NBEATS", "NHITS", "MLP", "TiDE"]
 for model in models_list:
     fig.add_trace(go.Scatter(x=Y_hat_df["ds"], y=Y_hat_df[model], 
                              name=model, line=dict(width=2)))
