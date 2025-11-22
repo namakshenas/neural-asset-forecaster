@@ -13,7 +13,7 @@ btc_df.insert(0, "unique_id", "1.0")
 horizon = 30
 
 models = [
-    TSMixer(h=horizon, n_series=1, input_size=int(horizon*4), n_block=3, ff_dim=128, dropout=0.3, revin=True,
+    TSMixer(h=horizon, n_series=1, input_size=336, n_block=3, ff_dim=128, dropout=0.3, revin=True,
         scaler_type="identity", max_steps=400, learning_rate=5e-4, batch_size=32,early_stop_patience_steps=10),
     NBEATS(h=horizon, input_size=336, max_steps=350, learning_rate=1e-3, scaler_type="robust",
         n_blocks=[3, 3, 2], mlp_units=[[512, 512], [512, 512], [512, 512]], 
@@ -34,6 +34,7 @@ nf.fit(df=btc_df, val_size=horizon)
 print("Generating predictions...")
 Y_hat_df = nf.predict()
 
+print("Generating figure...")
 fig = go.Figure()
 recent_data = btc_df.tail(60)
 fig.add_trace(go.Scatter(x=recent_data["ds"], y=recent_data["y"], 

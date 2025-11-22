@@ -34,6 +34,7 @@ nf.fit(df=eth_df, val_size=horizon)
 print("Generating predictions...")
 Y_hat_df = nf.predict()
 
+print("Generating figure...")
 fig = go.Figure()
 recent_data = eth_df.tail(60)
 fig.add_trace(go.Scatter(x=recent_data["ds"], y=recent_data["y"], 
